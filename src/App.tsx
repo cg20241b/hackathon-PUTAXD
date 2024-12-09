@@ -55,8 +55,8 @@ function App() {
 
         // Alphabet Material
         const alphabetMaterial = new THREE.MeshPhongMaterial({
-          color: 0x00ff00, // Warna material (hijau)
-          specular: 0xffffff, // Warna spesular (putih)
+          color: 0x98fb98,
+          specular: 0xffffff,
           shininess: 50, // Kecepatan pencahayaan
         });
         const textMeshA = new THREE.Mesh(textGeometryA, alphabetMaterial);
@@ -73,7 +73,7 @@ function App() {
 
         // Digit Material
         const digitMaterial = new THREE.MeshStandardMaterial({
-          color: 0x0000ff,
+          color: 0x670467,
           roughness: 0.5,
           metalness: 1,
         });
@@ -97,6 +97,9 @@ function App() {
         pointLight.position.copy(cube.position);
         scene.add(pointLight);
 
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.415); // Decrease intensity
+        scene.add(ambientLight);
+
         // Set up post-processing for bloom effect
         const composer = new EffectComposer(renderer);
         const renderPass = new RenderPass(scene, camera);
@@ -111,38 +114,38 @@ function App() {
         composer.addPass(bloomPass);
 
         // Handle keydown events for interactivity
-        // const handleKeyDown = (event: KeyboardEvent) => {
-        //   switch (event.key) {
-        //     case "w":
-        //       cube.position.y += 0.1;
-        //       break;
-        //     case "s":
-        //       cube.position.y -= 0.1;
-        //       break;
-        //     case "9":
-        //       cube.position.x -= 0.1;
-        //       break;
-        //     case "0":
-        //       cube.position.x += 0.1;
-        //       break;
-        //     case "-":
-        //       cube.position.z -= 0.1;
-        //       break;
-        //     case "+":
-        //       cube.position.z += 0.1;
-        //       break;
+        const handleKeyDown = (event: KeyboardEvent) => {
+          switch (event.key) {
+            case "w":
+              cube.position.y += 0.1;
+              break;
+            case "s":
+              cube.position.y -= 0.1;
+              break;
+            case "9":
+              cube.position.x -= 0.1;
+              break;
+            case "0":
+              cube.position.x += 0.1;
+              break;
+            case "-":
+              cube.position.z -= 0.1;
+              break;
+            case "+":
+              cube.position.z += 0.1;
+              break;
 
-        //     case "a":
-        //       camera.position.x += 0.1;
-        //       break;
-        //     case "d":
-        //       camera.position.x -= 0.1;
-        //       break;
-        //   }
-        //   // Update light position
-        //   pointLight.position.copy(cube.position);
-        // };
-        // window.addEventListener("keydown", handleKeyDown);
+            case "a":
+              camera.position.x += 0.1;
+              break;
+            case "d":
+              camera.position.x -= 0.1;
+              break;
+          }
+          // Update light position
+          pointLight.position.copy(cube.position);
+        };
+        window.addEventListener("keydown", handleKeyDown);
 
         const animate = () => {
           requestAnimationFrame(animate);
